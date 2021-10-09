@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
           'Example response: IMAGE JPG OR PNG\n\n'+
           '•Videos Access: /files/mp4/*name.mp4*\n' +
           'Example response: VIDEO MP4\n\n'+
-          '•Image Access (Random): /files/random/mp4\n' +
+          '•Image Access (Random): /files/random/jpg\n' +
           'Example response:{"response":null,"urlresource":"random-name.jpg","httpstatus":200}\n\n'+
           '•Video Access (Random): /files/random/mp4\n' +
           'Example response:{"response":null,"urlresource":"random-name.mp4","httpstatus":200}\n\n'
