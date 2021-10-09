@@ -1,7 +1,7 @@
 # API-Memes
 An REST API full of varied memes in Spanish. Simple.
 
-![Image API Memes](Memes Mini.jpg)
+![](memes_mini.jpg)
 
 ## Images List: /files/jpg
 Example response: {"response":["Array String"],"urlresource":null,"httpstatus":200}
