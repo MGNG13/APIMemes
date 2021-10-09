@@ -3,16 +3,31 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
-app.listen(process.env.PORT, ()=>{
+// AL INICIAR EL SERVER
+app.listen(port, ()=>{
       console.log('API INICIADA!');
 });
 
 // ACCEDER AL index/main DEL SERVER
 app.get('/', (req, res) => {
       res.setHeader('Content-Type', 'application/json');
-      res.send('Hello, API Programming Memes in Spanish working!');
+      res.send('Hello, API Programming Memes in Spanish working!\n\n' +
+          'Documentación\n\n\n' +
+          '•Images List: /files/jpg\n' +
+          'Example response: {"response":["Array String"],"urlresource":null,"httpstatus":200}\n\n'+
+          '•Videos List: /files/mp4\n' +
+          'Example response: {"response":["Array String"],"urlresource":null,"httpstatus":200}\n\n'+
+          '•Images Access: /files/jpg/*name.jpg*\n' +
+          'Example response: IMAGE JPG OR PNG\n\n'+
+          '•Videos Access: /files/mp4/*name.mp4*\n' +
+          'Example response: VIDEO MP4\n\n'+
+          '•Image Access (Random): /files/random/mp4\n' +
+          'Example response:{"response":null,"urlresource":"random-name.jpg","httpstatus":200}\n\n'+
+          '•Video Access (Random): /files/random/mp4\n' +
+          'Example response:{"response":null,"urlresource":"random-name.mp4","httpstatus":200}\n\n'
+      )
 });
 
 // ACCEDDER A TODAS LAS IMAGENES
@@ -57,82 +72,6 @@ app.get('/files/mp4', (req, res) => {
       });
 });
 
-// VERIFICAR QUE EXISTE UN RECURSO JPG
-app.get('/files/resource/jpg', (req, res) => {
-      var url_parts = url.parse(req.url, true);
-      var queryresource = url_parts.query.resource;
-      var fullUrl = req.protocol + '://' + req.get('host') + '/files/mp4';
-      const errorResource = fullUrl + __dirname + '/error/Error-404.webp';
-
-      if (queryresource !== '' && queryresource !== undefined) {
-            if (!fs.existsSync(path.join(__dirname, 'memes', 'jpg', queryresource))) {
-                  const response = new Object();
-                  response.response = 'Resource not exist';
-                  response.urlresource = errorResource;
-                  response.httpstatus = 500;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.send(500, JSON.parse(JSON.stringify(response, null, 2)));
-                  console.log('Error: File not exist');
-            } else {
-                  const fullUrl = req.protocol + '://' + req.get('host') + '/files/jpg';
-                  const response = new Object();
-                  response.response = null;
-                  response.urlresource = fullUrl + '/' + queryresource;
-                  response.httpstatus = 200;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.send(200, JSON.parse(JSON.stringify(response, null, 2)));
-                  console.log('Sended JPG meme! => ', queryresource);
-            }
-
-      } else {
-            const response = new Object();
-            response.response = 'resource null in URL QUERY';
-            response.urlresource = errorResource;
-            response.httpstatus = 400;
-            res.setHeader('Content-Type', 'application/json');
-            res.send(400, JSON.parse(JSON.stringify(response, null, 2)));
-            console.log('Error: resource null in URL QUERY');
-      }
-});
-
-// VERIFICAR QUE EXISTE UN RECURSO MP4
-app.get('/files/resource/mp4', (req, res) => {
-      var url_parts = url.parse(req.url, true);
-      var queryresource = url_parts.query.resource;
-      var fullUrl = req.protocol + '://' + req.get('host') + '/files/mp4';
-      const errorResource = fullUrl + __dirname + '/error/Error-404.webp';
-
-      if (queryresource !== '' && queryresource !== undefined) {
-            if (!fs.existsSync(path.join(__dirname, 'memes', 'mp4', queryresource))) {
-                  const response = new Object();
-                  response.response = 'Resource not exist';
-                  response.urlresource = errorResource;
-                  response.httpstatus = 500;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.send(500, JSON.parse(JSON.stringify(response, null, 2)));
-                  console.log('Error: File not exist');
-            } else {
-                  const fullUrl = req.protocol + '://' + req.get('host') + '/files/mp4';
-                  const response = new Object();
-                  response.response = null;
-                  response.urlresource = fullUrl + '/' + queryresource;
-                  response.httpstatus = 200;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.send(200, JSON.parse(JSON.stringify(response, null, 2)));
-                  console.log('Sended MP4 meme! => ', queryresource);
-            }
-
-      } else {
-            const response = new Object();
-            response.response = 'resource null in URL QUERY';
-            response.urlresource = errorResource;
-            response.httpstatus = 400;
-            res.setHeader('Content-Type', 'application/json');
-            res.send(400, JSON.parse(JSON.stringify(response, null, 2)));
-            console.log('Error: resource null in URL QUERY');
-      }
-});
-
 // ACCEDER A EL RECURSO JPG DEL MEME
 app.get('/files/jpg/:resource', (req, res) => {
       var options = {
@@ -144,7 +83,7 @@ app.get('/files/jpg/:resource', (req, res) => {
                   var options = {
                         root: path.join(__dirname, 'error')
                   };
-                  res.sendFile(req.params.resource, options, function (err) {
+                  res.sendFile('Error-404.webp', options, function (err) {
                         if (err) {
                               console.log('Error: ' + err.toString());
                         } else {
@@ -168,7 +107,7 @@ app.get('/files/mp4/:resource', (req, res) => {
                   var options = {
                         root: path.join(__dirname, 'error')
                   };
-                  res.sendFile(req.params.resource, options, function (err) {
+                  res.sendFile('Error-404.webp', options, function (err) {
                         if (err) {
                               console.log('Error: ' + err.toString());
                         } else {
@@ -182,10 +121,8 @@ app.get('/files/mp4/:resource', (req, res) => {
 });
 
 // ACCEDER A UN MEME MP4
-app.get('/files/resource/random/mp4', (req, res) => {
-      var url_parts = url.parse(req.url, true);
-      var fullUrl = req.protocol + '://' + req.get('host') + '/files/mp4';
-      const errorResource = fullUrl + __dirname + '/error/Error-404.webp';
+app.get('/files/random/mp4', (req, res) => {
+      const errorResource = req.protocol + '://' + req.get('host') + '/files/jpg/Error-404.webp';
 
       fs.readdir(path.join(__dirname, 'memes/mp4'), (err, files) => {
             if (err !== null) {
@@ -211,10 +148,8 @@ app.get('/files/resource/random/mp4', (req, res) => {
 });
 
 // ACCEDER A UN MEME JPG
-app.get('/files/resource/random/jpg', (req, res) => {
-      var url_parts = url.parse(req.url, true);
-      var fullUrl = req.protocol + '://' + req.get('host') + '/files/mp4';
-      const errorResource = fullUrl + __dirname + '/error/Error-404.webp';
+app.get('/files/random/jpg', (req, res) => {
+      const errorResource = req.protocol + '://' + req.get('host') + '/files/jpg/Error-404.webp';
 
       fs.readdir(path.join(__dirname, 'memes/jpg'), (err, files) => {
             if (err !== null) {
