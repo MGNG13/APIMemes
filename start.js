@@ -3,7 +3,11 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
+
+app.listen(process.env.PORT, ()=>{
+      console.log('API INICIADA!');
+});
 
 // ACCEDER AL index/main DEL SERVER
 app.get('/', (req, res) => {
