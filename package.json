@@ -1,0 +1,19 @@
+{
+  "name": "memes-programming",
+  "version": "1.0.0",
+  "description": "Programming Memes in Spanish",
+  "main": "start.js",
+  "engines": {
+    "node": "16.4.0"
+ },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
+  },"scripts": {
+    "start": "node start.js",
+    "server": "nodemon start.js",
+    "server-prod": "node start.js"
+  }
+}
