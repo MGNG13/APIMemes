@@ -1,5 +1,13 @@
-# API-Memes
+# APIMemes
 An REST API full of varied memes in Spanish. Simple.
+
+> 📢 *Aviso de Discreción*
+> 
+> *El siguiente contenido de código puede incluir expresiones fuertes, lenguaje inapropiado o comentarios que podrían considerarse ofensivos.*
+> 
+> ⚠️ *Se recomienda discreción, especialmente para lectores sensibles a este tipo de lenguaje.*
+> 
+> **Este contenido ha sido mantenido con fines de transparencia, pruebas o documentación, y no refleja necesariamente las opiniones del autor.**
 
 ![](memes_mini.jpg)
 
